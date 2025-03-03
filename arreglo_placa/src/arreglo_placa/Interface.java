@@ -1,4 +1,4 @@
-package modelo;
+package arreglo_placa;
 
 /**
  *
