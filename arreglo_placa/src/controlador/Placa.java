@@ -1,4 +1,4 @@
-package arreglo_placa;
+package controlador;
 
 /**
  *
