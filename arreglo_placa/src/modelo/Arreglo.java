@@ -3,16 +3,12 @@ package modelo;
 import java.util.Scanner;
 import java.util.Random;
 
-/**
- *
- * @author Leonardo
- */
+
 public class Arreglo {
     private static Scanner scan = new Scanner(System.in);
     private String[] licensePlate_Place;
     
     public Arreglo() {
-        this.scan = new Scanner(System.in);
         licensePlate_Place = new String[tam];
         this.counter = 0;
         this.tam = tam;
@@ -30,6 +26,7 @@ public class Arreglo {
     }
     
      public void define_NumbSpaces(){
+        System.out.println("Define the size that you like for the array");
         tam = scan.nextInt(); // Asignar el valor al campo de la clase
         this.licensePlate_Place = new String[this.tam]; // Inicializar el arreglo con el nuevo tamañ
      }
@@ -40,35 +37,37 @@ public class Arreglo {
         System.out.println("1. Put yourself");
         System.out.println("2. Generate random plate");
         int option = scan.nextInt();
+        scan.nextLine();
         if(option == 1){
             System.out.println("Put the license plate that you need to add:");
             plate =scan.nextLine();
-            for(int i = 0; i<= counter;i++){ //we confirm if exist free space
+            for(int i = 0; i< tam;i++){ //we confirm if exist free space
                 if (licensePlate_Place[i] == null){
                     licensePlate_Place [i] = plate;
-                }else{
-                    i++;
-                    counter = i;
-                }          
+                    break;
+                }       
             }
         }
         if(option == 2){ //ramdom
-            for(int i = 0; i<= tam;i++){
+            for(int i = 0; i< tam;i++){
                 String letras = "";
                 String numeros = "";
                 if (licensePlate_Place[i] == null){
                     Random random =  new Random();
-                    for (int j = 0; i < 3; i++) {
+                    for (int j = 0; j < 3; j++) {
                         char letra = (char) ('A' + random.nextInt(26));  // Obtener una letra aleatoria entre 'A' y 'Z'
                         letras += letra;
                     }
             
                     // Generar tres números aleatorios
-                    for (int k = 0; i < 3; i++) {
+                    for (int k = 0; k < 3; k++) {
                         int numero = random.nextInt(10);  // Obtener un número aleatorio entre 0 y 9
                         numeros += numero;
+                        System.out.println("added correctly the new plate 3");
                     }
                     licensePlate_Place[i] = letras + numeros;
+                    System.out.println("added correctly the new plate:" + licensePlate_Place[i]);
+                    break;
                 }
             }
         }
@@ -81,16 +80,20 @@ public class Arreglo {
 
     public void delete_Plate (){
         int option2;
-        System.out.print("put the plate that you like delete: ");
-        System.out.print("1. search by license plat ");
+        String plateToDelete;
+        System.out.print("put the plate that you like delete:\n ");
+        System.out.print("1. search by license plat\n ");
         System.out.print("2. delete by position ");
         option2 = scan.nextInt();
+        scan.nextLine();
         if(option2 == 1){
-            String plateToDelete = scan.nextLine();
-            for (int i = 0; i < licensePlate_Place.length; i++) {
+            System.out.print("put the plate that you like delete: ");
+            plateToDelete = scan.nextLine();
+            scan.nextLine();
+            for (int i = 0; i < tam; i++) {
                 if (plateToDelete.equals(licensePlate_Place[i])) {
                     licensePlate_Place[i] = null;
-                    System.out.println("Plate '" + plateToDelete + "' deleted successfully.");
+                    System.out.println("Plate " + plateToDelete + " deleted successfully.");
                     break;
                 }
             }
@@ -99,7 +102,7 @@ public class Arreglo {
             System.out.print("put the position of the plate that you like delete: ");
             int delete_Plate = scan.nextInt();
             scan.nextLine();
-            licensePlate_Place [delete_Plate] = null;
+            licensePlate_Place [delete_Plate - 1] = null;
         }
     }
     
@@ -107,24 +110,21 @@ public class Arreglo {
         System.out.print("put the plate that you like change: ");
         String find_Plate = scan.nextLine();
         scan.nextLine();
-        
-        int flag = -1;
-        for (int i = 0; i < licensePlate_Place.length; i++) {
+        for (int i = 0; i < tam; i++) {
             if (find_Plate.equals(licensePlate_Place[i])) {
-                flag = i; 
-                break; 
+                // Pedir la nueva placa
+                System.out.print("Insert the new plate: ");
+                String newPlate = scan.nextLine();
+                scan.nextLine();
+                licensePlate_Place[i] = newPlate;
+                System.out.println("plate has been changed succesfully.");
+                break;
+            } else {
+                System.out.println("Plate not found.");
             }
-        }
-        if (flag != -1) {
-            // Pedir la nueva placa
-            System.out.print("Insert the new plate: ");
-            String newPlate = scan.nextLine();
-            scan.nextLine();
-            licensePlate_Place[flag] = newPlate;
-            System.out.println("plate has been changed succesfully.");
-        } else {
-            System.out.println("Plate not found.");
-        }
+               
+           }
+       
     }
 
     public void view_TablePlate() {
@@ -141,6 +141,8 @@ public class Arreglo {
             System.out.println("1. Insert license plate");
             System.out.println("2. Find and chance a word");
             System.out.println("3. Find and Delete word");
+            System.out.println("4. view table");
+            System.out.println("5. exit");
             option = scan.nextInt();
             scan.nextLine(); // Limpiar el buffer
 
@@ -157,9 +159,11 @@ public class Arreglo {
                     delete_Plate();
                     System.out.println("Changes Saved:");
                     break;
+                case 4:
+                    view_TablePlate();
                 default:
                     System.out.println("Opción no válida.");
             }
-        }while(option == 4);
+        }while(option != 5);
     }
 }
