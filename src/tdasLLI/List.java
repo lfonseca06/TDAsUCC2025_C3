@@ -9,8 +9,9 @@ import java.util.NoSuchElementException;
 import java.util.Iterator;
 
 /**
- *
- * @author yessica malaver
+ * Implementación de una lista doblemente enlazada con operaciones en ambos extremos.
+ * 
+ * @param <Item> Tipo genérico de los elementos almacenados
  */
 public class List <Item> implements Iterable<Item>{
     
@@ -27,7 +28,7 @@ public class List <Item> implements Iterable<Item>{
     
     public void add(int index, Item item) {
     if (index < 0 || index > count) {
-        throw new IndexOutOfBoundsException("�ndice fuera de rango: " + index);
+        throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
     }
 
     if (index == 0) {
@@ -51,7 +52,11 @@ public class List <Item> implements Iterable<Item>{
         count++;
         }
     }
-    
+       /**
+     * Inserta un elemento al inicio de la lista.
+     * 
+     * @param item Elemento a ser insertado
+     */
       public void addFirst(Item item) {
         Node oldfirst = first;
         first = new Node();
@@ -61,11 +66,15 @@ public class List <Item> implements Iterable<Item>{
         if (oldfirst != null) {
             oldfirst.prev = first;
         } else {
-            last = first; // La lista estaba vac�a
+            last = first; // La lista estaba vacía
         }
         count++;
     }
-      
+        /**
+     * Inserta un elemento al final de la lista.
+     * 
+     * @param item Elemento a ser insertado
+     */ 
     public void addLast(Item item) {
         Node oldlast = last;
         last = new Node();
@@ -75,7 +84,7 @@ public class List <Item> implements Iterable<Item>{
         if (oldlast != null) {
             oldlast.next = last;
         } else {
-            first = last; // La lista estaba vac�a
+            first = last; // La lista estaba vacía
         }
         count++;
     }
@@ -102,47 +111,63 @@ public class List <Item> implements Iterable<Item>{
     }
     
     public Item getFirst() {
-        if (isEmpty()) throw new NoSuchElementException("Lista vac�a");
+        if (isEmpty()) throw new NoSuchElementException("Lista vacía");
         return first.item;
     }
     
     public Item getLast() {
-        if (isEmpty()) throw new NoSuchElementException("Lista vac�a");
+        if (isEmpty()) throw new NoSuchElementException("Lista vacía");
         return last.item;
     }
-    
+    /**
+     * Verifica si la lista está vacía.
+     * @return true si no contiene elementos
+     */
     public boolean isEmpty(){
         return first == null;
         //return count == 0;
     }
-    
+    /**
+     * Obtiene el número de elementos.
+     * @return Tamaño de la lista
+     */
     public int size(){
         return count;
     }
+    
+     /**
+     * Elimina y devuelve el primer elemento.
+     * @return Elemento removido
+     * @throws NoSuchElementException si la lista está vacía
+     */
     public Item removeFirst() {
-        if (isEmpty()) throw new NoSuchElementException("Lista vac�a");
+        if (isEmpty()) throw new NoSuchElementException("Lista vacía");
         Item item = first.item;
         Node oldfirst = first;
         first = first.next;
         if (first != null) {
             first.prev = null;
         } else {
-            last = null; // La lista queda vac�a
+            last = null; // La lista queda vacía
         }
         oldfirst.item = null;
         count--;
         return item;
     }
-    
+    /**
+     * Elimina y devuelve el último elemento.
+     * @return Elemento removido
+     * @throws NoSuchElementException si la lista está vacía
+     */
     public Item removeLast() {
-        if (isEmpty()) throw new NoSuchElementException("Lista vac�a");
+        if (isEmpty()) throw new NoSuchElementException("Lista vacía");
         Item item = last.item;
         Node oldlast = last;
         last = last.prev;
         if (last != null) {
             last.next = null;
         } else {
-            first = null; // La lista queda vac�a
+            first = null; // La lista queda vacía
         }
         oldlast.item = null;
         count--;
@@ -171,10 +196,17 @@ public class List <Item> implements Iterable<Item>{
         }
         return false;
     }
-    
+
+      /**
+     * Obtiene el elemento en la posición especificada.
+     * 
+     * @param index Índice del elemento (0-based)
+     * @return Elemento en la posición indicada
+     * @throws IndexOutOfBoundsException si el índice es inválido
+     */
     public Item get(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("�ndice fuera de rango: " + index);
+            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
         }
         Node current = first;
         for (int i = 0; i < index; i++) {
@@ -198,7 +230,7 @@ public class List <Item> implements Iterable<Item>{
 
     public Item remove(int index) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("�ndice fuera de rango: " + index);
+            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
         }
         if (index == 0) {
             return removeFirst();
@@ -220,7 +252,7 @@ public class List <Item> implements Iterable<Item>{
 
     public void set(int index, Item item) {
         if (index < 0 || index >= count) {
-            throw new IndexOutOfBoundsException("�ndice fuera de rango: " + index);
+            throw new IndexOutOfBoundsException("Índice fuera de rango: " + index);
         }
         Node current = first;
         for (int i = 0; i < index; i++) {
@@ -228,7 +260,11 @@ public class List <Item> implements Iterable<Item>{
         }
         current.item = item;
     }
-    
+
+     /**
+     * Proporciona un iterador para recorrer los elementos.
+     * @return Iterador de elementos
+     */
     @Override
     public Iterator<Item> iterator() {
         return new LinkedListIterator();
